@@ -16,16 +16,6 @@ This project is designed to provide the chart support deploy a containerized app
 
 ## Usage
 
-foo
-
-## Modules
-
-foo
-
-## Contributing
-
-foo
-
 ## License
 
-foo
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
