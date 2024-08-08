@@ -1,0 +1,8 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{ include "one-press-chart.fullname" . }}
+  labels:
+{{ include "one-press-chart.labels" . | indent 4 }}
+data:
+{{ (tpl (.Files.Glob .Values.configMap.targetPath).AsConfig . ) | indent 2 }}

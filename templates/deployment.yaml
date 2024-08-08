@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "one-press-chart.fullname" . }}
+  labels:
+    {{- include "one-press-chart.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "one-press-chart.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        rollme: {{ randAlphaNum 5 | quote }}
+        {{- with .Values.podAnnotations }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "one-press-chart.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "one-press-chart.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        {{- $chartFullName := include "one-press-chart.fullname" . -}}
+        {{- range $c := .Values.deployment.containers }}
+        - name: {{ $c.name }}
+          image: {{ $c.image.repository }}:{{ $c.image.tag }}
+          imagePullPolicy: Always
+          {{- if $c.ports }}
+          ports:
+            {{- toYaml $c.ports | nindent 12 }}
+          {{- end }}
+          {{- if $c.env }}
+          env:
+            {{- range $key, $val := $c.env.secret }}
+            - name: {{ $key }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $chartFullName }}
+                  key: {{ $key }}
+            {{- end }}
+            {{- range $key, $val := $c.env.common }}
+            - name: {{ $key }}
+              value: {{ $val | quote }}
+            {{- end }}
+          {{- end }}
+          {{- if $c.readinessProbe }}
+          readinessProbe:
+            {{- toYaml $c.readinessProbe | nindent 12 }}
+          {{- end }}
+          {{- if $c.livenessProbe }}
+          livenessProbe:
+            {{- toYaml $c.livenessProbe | nindent 12 }}
+          {{- end }}
+          {{- if $c.volumeMounts }}
+          volumeMounts:
+            {{- range $key, $val := $c.volumeMounts }}
+              {{- toYaml $val | nindent 12 }}
+            {{- end }}
+          {{- end }}
+        {{- end }}
+      {{- if .Values.deployment.volumes }}
+      volumes:
+        {{- range $key, $val := .Values.deployment.volumes }}
+          {{- toYaml $val | nindent 8 }}
+        {{- end }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
