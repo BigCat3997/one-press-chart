@@ -36,6 +36,33 @@ Example:
 
 ```
 
+## Modules
+
+Show detail of components in the chart.
+
+```bash
+one-press-chart
+├── Chart.yaml
+├── LICENSE
+├── README.md
+├── deploy.yaml
+├── templates
+│   ├── NOTES.txt
+│   ├── _helpers.tpl
+│   ├── configmap.yaml
+│   ├── deployment.yaml
+│   ├── hpa.yaml
+│   ├── ingress.yaml
+│   ├── secret.yaml
+│   ├── service.yaml
+│   ├── serviceaccount.yaml
+│   └── tests
+│       └── test-connection.yaml
+└── values.yaml
+
+3 directories, 15 files
+```
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
