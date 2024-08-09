@@ -40,6 +40,10 @@ Example:
 
 Show detail of components in the chart.
 
+### Structure when compile.
+
+The time when you either pull or package it in Helm registry.
+
 ```bash
 one-press-chart
 ├── Chart.yaml
@@ -62,6 +66,98 @@ one-press-chart
 
 3 directories, 15 files
 ```
+
+### Structure when runtime.
+
+The time when you execute it.
+
+```bash
+one-press-chart
+├── Chart.yaml
+├── LICENSE
+├── README.md
+├── deploy.yaml
+├── resources
+│   ├── configmap
+│   │   ├── nginx.conf
+│   │   └── report.csv
+│   └── secret
+│       ├── application-uat.properties
+│       ├── appsettings.json
+│       └── cred.pem
+├── templates
+│   ├── NOTES.txt
+│   ├── _helpers.tpl
+│   ├── configmap.yaml
+│   ├── deployment.yaml
+│   ├── hpa.yaml
+│   ├── ingress.yaml
+│   ├── secret.yaml
+│   ├── service.yaml
+│   ├── serviceaccount.yaml
+│   └── tests
+│       └── test-connection.yaml
+└── values.yaml
+
+6 directories, 20 files
+```
+
+### Values.yaml's properties
+
+This document provides detailed descriptions for the properties defined in the `values.yaml` file.
+
+#### replicaCount
+
+- **Description**: Number of replicas for the deployment.
+- **Type**: Integer
+- **Example**: 1
+
+#### nameOverride
+
+- **Description**: Override the name of the application.
+- **Type**: String
+- **Example**: ""
+
+#### fullnameOverride
+
+- **Description**: Override the full name of the application.
+- **Type**: String
+- **Example**: "weather-forecast-ap"
+
+#### deployment.containers.mainApp.name
+
+- **Description**: Name of the main application container.
+- **Type**: String
+- **Example**: "main-app"
+
+#### deployment.containers.mainApp.image.repository
+
+- **Description**: Repository for the container image.
+- **Type**: String
+- **Example**: "docker.io/weather-forecast-ap"
+
+#### deployment.containers.mainApp.image.tag
+
+- **Description**: Tag for the container image.
+- **Type**: String
+- **Example**: "latest"
+
+#### deployment.containers.mainApp.image.imagePullPolicy
+
+- **Description**: Image pull policy.
+- **Type**: String
+- **Example**: "Always"
+
+#### deployment.containers.mainApp.ports
+
+- **Description**: List of ports exposed by the container.
+- **Type**: List of objects
+- **Example**:
+  ```yaml
+  - name: http
+    containerPort: 8080
+    protocol: TCP
+  ```
 
 ## License
 
