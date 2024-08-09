@@ -122,7 +122,7 @@ This document provides detailed descriptions for the properties defined in the `
 
 - **Description**: Override the full name of the application.
 - **Type**: String
-- **Example**: "weather-forecast-ap"
+- **Example**: "weather-forecast-api"
 
 #### deployment.containers.mainApp.name
 
@@ -134,7 +134,7 @@ This document provides detailed descriptions for the properties defined in the `
 
 - **Description**: Repository for the container image.
 - **Type**: String
-- **Example**: "docker.io/weather-forecast-ap"
+- **Example**: "docker.io/weather-forecast-api"
 
 #### deployment.containers.mainApp.image.tag
 
@@ -159,6 +159,82 @@ This document provides detailed descriptions for the properties defined in the `
     protocol: TCP
   ```
 
+#### deployment.containers.mainApp.env.common
+
+- **Description**: Common environment variables
+- **Type**: Dict of objects
+- **Example**:
+  ```yaml
+  BUILD_NUMBER: <BUILD_NUMBER>
+  GIT_COMMIT_ID: <GIT_COMMIT_ID>
+  GIT_SHORT_COMMIT_ID: <GIT_SHORT_COMMIT_ID>
+  GIT_URL: <GIT_URL>
+  PIPELINE_NAME: <PIPELINE_NAME>
+  ```
+
+#### deployment.containers.mainApp.env.secret
+
+- **Description**: Secret environment variables
+- **Type**: Dict of objects
+- **Example**:
+  ```yaml
+  SECRET_WEATHER_FORECAST_API_VAULT_CLIENT_ID=<SECRET_WEATHER_FORECAST_API_VAULT_CLIENT_ID>
+  SECRET_WEATHER_FORECAST_API_VAULT_CLIENT_SECRET=<SECRET_WEATHER_FORECAST_API_VAULT_CLIENT_SECRET>
+  SECRET_WEATHER_FORECAST_API_VAULT_TENANT_ID=<SECRET_WEATHER_FORECAST_API_VAULT_TENANT_ID>
+  SECRET_WEATHER_FORECAST_API_VAULT_URL=<SECRET_WEATHER_FORECAST_API_VAULT_URL>
+  ```
+
+#### deployment.containers.mainApp.readinessProbe.httpGet.path
+
+- **Description**: Path for the readiness probe.
+- **Type**: String
+- **Example**: "/version"
+
+#### deployment.containers.mainApp.readinessProbe.httpGet.port
+
+- **Description**: Port for the readiness probe.
+- **Type**: Integer
+- **Example**: 8080
+
+#### deployment.containers.mainApp.readinessProbe.initialDelaySeconds
+
+- **Description**: Initial delay before the readiness probe starts.
+- **Type**: Integer
+- **Example**: 45
+
+#### deployment.containers.mainApp.readinessProbe.periodSeconds
+
+- **Description**: Period between readiness probes.
+- **Type**: Integer
+- **Example**: 60
+
+#### deployment.containers.mainApp.readinessProbe.timeoutSeconds
+
+- **Description**: Timeout for the readiness probe.
+- **Type**: Integer
+- **Example**: 10
+
+#### deployment.containers.mainApp.readinessProbe.failureThreshold
+
+- **Description**: Number of consecutive failures for the probe to be considered failed.
+- **Type**: Integer
+- **Example**: 3
+
+#### deployment.containers.mainApp.readinessProbe.successThreshold
+
+- **Description**: Number of consecutive successes for the probe to be considered successful after having failed.
+- **Type**: Integer
+- **Example**: 1
+
+#### deployment.containers.mainApp.livenessProbe.httpGet
+
+- **Description**: HTTP GET action for the liveness probe.
+- **Type**: Object
+- **Example**: Not specified in the provided excerpt.
+
+```
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+```
