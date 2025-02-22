@@ -8,6 +8,10 @@ spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
+  {{- if .Values.strategy }}
+  strategy:
+    {{- toYaml .Values.strategy| nindent 4 }}
+  {{- end }}
   selector:
     matchLabels:
       {{- include "one-press-chart.selectorLabels" . | nindent 6 }}
@@ -66,6 +70,8 @@ spec:
               {{- toYaml $val | nindent 12 }}
             {{- end }}
           {{- end }}
+          resources:
+            {{- toYaml $c.resources | nindent 12 }}
         {{- end }}
       {{- if .Values.deployment.volumes }}
       volumes:
